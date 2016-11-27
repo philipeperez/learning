@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+</head>
+
+<body>
+	<table align="center">
+		<tr>
+			<td align="center" colspan="3">
+				<h1>Conversor Serial PadTec</h1>
+			</td>
+		</tr>
+		<tr>
+			<th text-align: center>Serial Alfanum&eacute;rico</th>
+			<th></th>
+			<th>Serial Num&eacute;rico</th>
+		</tr>
+		
+		<tr>
+			<td>
+				<input id="alfanum" type="text" oninput="convertToNum()" />
+			</td>
+			
+			<td>
+				
+			</td>
+			
+			<td>
+				<input id="num" type="text" oninput="convertToAlfa()" />
+			</td>
+		</tr>
+	</table>
+	<p>Paragrafo de teste</p>
+	<script>
+		function convertToAlfa() {
+			var serialInt = document.getElementById("num").value.trim();
+			
+			var num = Number(serialInt.substr(0, 1));
+			var numBin = num.toString(2);
+			numBin = "0000".substr(numBin.length) + numBin;
+			
+			var week = Number(serialInt.substr(1, 2));
+			var weekBin = week.toString(2);
+			weekBin = "000000".substr(weekBin.length) + weekBin;
+			
+			var year = Number(serialInt.substr(3, 2));
+			var yearBin = year.toString(2);
+			yearBin = "000000".substr(yearBin.length) + yearBin;
+			
+			var idBin = numBin + weekBin + yearBin;
+			
+			var ident1 = idBin.substr(0, 4);
+			var ident1Bin2Dec = parseInt(ident1, 2);
+			var ident1Dec2Hex = ident1Bin2Dec.toString(16);
+			
+			var ident2 = idBin.substr(4, 4);
+			var ident2Bin2Dec = parseInt(ident2, 2);
+			var ident2Dec2Hex = ident2Bin2Dec.toString(16);
+			
+			var ident3 = idBin.substr(8, 4);
+			var ident3Bin2Dec = parseInt(ident3, 2);
+			var ident3Dec2Hex = ident3Bin2Dec.toString(16);
+			
+			var ident4 = idBin.substr(12, 4);
+			var ident4Bin2Dec = parseInt(ident4, 2);
+			var ident4Dec2Hex = ident4Bin2Dec.toString(16);
+			
+			var serial = Number(serialInt.slice(5, 10));
+			var serialHex = serial.toString(16);
+			serialHex = "0000".substr(serialHex.length) + serialHex;
+			
+			var result = ident1Dec2Hex + ident2Dec2Hex + ident3Dec2Hex + ident4Dec2Hex + serialHex;
+			
+			document.getElementById("alfanum").value = result;
+			document.getElementById("alfanum").style.backgroundColor = "#BDBDBD";
+			document.getElementById("num").style.backgroundColor = "";
+		}
+		
+		function convertToNum() {
+			var idInt = document.getElementById("alfanum").value.trim();
+			
+			if (idInt.substr(0, 4) == "PDTC") {
+				idInt = idInt.slice(4);
+			}
+			
+			var id1 = idInt.substr(0, 1);
+			var id1Hex2Dec = parseInt(id1, 16);
+			var id1Dec2Bin = id1Hex2Dec.toString(2);
+			id1Dec2Bin = "0000".substr(id1Dec2Bin.length) + id1Dec2Bin;
+			
+			var id2 = idInt.substr(1, 1);
+			var id2Hex2Dec = parseInt(id2, 16);
+			var id2Dec2Bin = id2Hex2Dec.toString(2);
+			id2Dec2Bin = "0000".substr(id2Dec2Bin.length) + id2Dec2Bin;
+			
+			var id3 = idInt.substr(2, 1);
+			var id3Hex2Dec = parseInt(id3, 16);
+			var id3Dec2Bin = id3Hex2Dec.toString(2);
+			id3Dec2Bin = "0000".substr(id3Dec2Bin.length) + id3Dec2Bin;
+			
+			var id4 = idInt.substr(3, 1);
+			var id4Hex2Dec = parseInt(id4, 16);
+			var id4Dec2Bin = id4Hex2Dec.toString(2);
+			id4Dec2Bin = "0000".substr(id4Dec2Bin.length) + id4Dec2Bin;
+			
+			var idBin = id1Dec2Bin + id2Dec2Bin + id3Dec2Bin + id4Dec2Bin;
+			
+			var serialPt1 = idBin.substr(0, 4);
+			var serialPt1Bin2Dec = parseInt(serialPt1, 2);
+			serialPt1Bin2Dec = serialPt1Bin2Dec.toString();
+			
+			var serialPt2 = idBin.substr(4, 6);
+			var serialPt2Bin2Dec = parseInt(serialPt2, 2);
+			serialPt2Bin2Dec = serialPt2Bin2Dec.toString();
+			
+			var serialPt3 = idBin.substr(10);
+			var serialPt3Bin2Dec = parseInt(serialPt3, 2);
+			serialPt2Bin2Dec = serialPt2Bin2Dec.toString();
+			
+			var serialPt4 = idInt.substr(4);
+			var serialPt4Hex2Dec = parseInt(serialPt4, 16);
+			serialPt4Hex2Dec = serialPt4Hex2Dec.toString();
+			serialPt4Hex2Dec = "00000".substr(serialPt4Hex2Dec.length) + serialPt4Hex2Dec;
+			
+			var result = serialPt1Bin2Dec + serialPt2Bin2Dec + serialPt3Bin2Dec + serialPt4Hex2Dec; 
+			
+			document.getElementById("num").value = result;
+			document.getElementById("num").style.backgroundColor = "#BDBDBD";
+			document.getElementById("alfanum").style.backgroundColor = "";
+		}
+	</script>
+
+</body>
+</html>
